@@ -1,5 +1,15 @@
 import arcade
 
+SUN_OFFSET = 0
+
+
+def draw_sun(x, y, r):
+    arcade.draw_circle_filled(x, y, r, arcade.color.YELLOW)
+    arcade.draw_line(x - 60, y, x + 60, y, arcade.color.YELLOW, line_width=3)
+    arcade.draw_line(x, y - 60, x, y + 60, arcade.color.YELLOW, line_width=3)
+    arcade.draw_line(x - 40, y + 40, x + 40, y - 40, arcade.color.YELLOW, line_width=3)
+    arcade.draw_line(x - 40, y - 40, x + 40, y + 40, arcade.color.YELLOW, line_width=3)
+
 
 def on_draw(delta_time):
     # 要添加这一行才能正确刷新背景
@@ -34,18 +44,9 @@ def on_draw(delta_time):
         ((500, 400), (480, 360), (470, 320), (530, 320), (520, 360)),
         arcade.csscolor.DARK_GREEN,
     )
-
-    # sun
-    arcade.draw_circle_filled(500, 550, 40, arcade.color.YELLOW)
-    arcade.draw_line(500 - 60, 550, 500 + 60, 550, arcade.color.YELLOW, line_width=3)
-    arcade.draw_line(500, 550 - 60, 500, 550 + 60, arcade.color.YELLOW, line_width=3)
-    arcade.draw_line(
-        500 - 40, 550 + 40, 500 + 40, 550 - 40, arcade.color.YELLOW, line_width=3
-    )
-    arcade.draw_line(
-        500 - 40, 550 - 40, 500 + 40, 550 + 40, arcade.color.YELLOW, line_width=3
-    )
-
+    global SUN_OFFSET
+    draw_sun(100 + abs(400 - (SUN_OFFSET % 800)), 550, 40)
+    SUN_OFFSET += 1
     # arcade.draw_text("Hello Arcade, Plant some trees!", 100, 230, arcade.color.BLACK, 24)
 
 
