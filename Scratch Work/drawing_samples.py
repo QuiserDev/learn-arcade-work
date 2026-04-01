@@ -2,6 +2,9 @@ import arcade
 
 
 def on_draw(delta_time):
+    # 要添加这一行才能正确刷新背景
+    arcade.get_window().clear()
+
     # 草地
     arcade.draw_lrbt_rectangle_filled(0, 599, 0, 300, arcade.csscolor.GREEN)
 
