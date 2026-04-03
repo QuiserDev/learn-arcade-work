@@ -1,4 +1,7 @@
+from typing import Optional
+
 import arcade
+import pyglet
 
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
@@ -14,11 +17,10 @@ class Ball:
         self.color = color
 
     def draw(self):
-        """ Draw the balls with the instance variables we have. """
-        arcade.draw_circle_filled(self.position_x,
-                                  self.position_y,
-                                  self.radius,
-                                  self.color)
+        """Draw the balls with the instance variables we have."""
+        arcade.draw_circle_filled(
+            self.position_x, self.position_y, self.radius, self.color
+        )
 
 
 class MyGame(arcade.Window):
@@ -29,12 +31,13 @@ class MyGame(arcade.Window):
         self.set_mouse_visible(False)
 
         arcade.set_background_color(arcade.color.ASH_GREY)
-
+        self.explosion_sound = arcade.load_sound(":resources:sounds/explosion2.wav")
+        self.explosion_sound_player: Optional[pyglet.media.Player] = None
         # Create our ball
         self.ball = Ball(50, 50, 15, arcade.color.AUBURN)
 
     def on_draw(self):
-        """ Called whenever we need to draw the window. """
+        """Called whenever we need to draw the window."""
         self.clear()
         self.ball.draw()
 
@@ -54,6 +57,10 @@ class MyGame(arcade.Window):
             self.ball.position_x -= 50
         elif symbol == arcade.key.D:
             self.ball.position_x += 50
+
+        if not self.explosion_sound_player or not self.explosion_sound_player.playing:
+            self.explosion_sound_player = arcade.play_sound(self.explosion_sound)
+
 
 def main():
     window = MyGame(640, 480, "Drawing Example")
